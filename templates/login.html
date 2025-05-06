@@ -11,105 +11,104 @@
 <body>
 
 	<div>
-		<div>
-			<form method="POST" action="">
-				<br>
-				<table border="1px">
-					<tr>
-						<th colspan="4"><h3>VERO STOCK</h3></th>
-					<tr>
-						<th style="width: 15%;">Clases</th>
-						<th style="width: 25%;">SubClases</th>
-						<th style="width: 30%;">Productos</th>
-						<th style="width: 0%;">Stocks</th>
-					</tr>
-					<tr>
+		<form method="POST" action="">
+			<br>
+			<table border="1px">
+				<tr>
+					<th colspan="4" style="background-color: gray;"><h3>VERO STOCK</h3></th>
+				<tr>
+					<th style="width: 15%; background-color: lightgray;"><h4>Clases</h4></th>
+					<th style="width: 25%; background-color: lightgray;"><h4>SubClases</h4></th>
+					<th style="width: 30%; background-color: lightgray;"><h4>Productos</h4></th>
+					<th style="width: 0%; background-color: lightgray;"><h4>Stocks</h4></th>
+				</tr>
+				<tr>
+					<td>
+						{% for clase in clases %}
+							<p><a href="/{{ clase[0] }}">{{ clase[1] }}</a></p>
+						{% endfor %}
+					</td>
+
+					{% if subclases %}
 						<td>
-							{% for clase in clases %}
-								<p><a href="/{{ clase[0] }}">{{ clase[1] }}</a></p>
+							{% for subclase in subclases %}
+								<p><a href="/{{ id_clase }}/{{ subclase[0] }}">{{ subclase[1] }}</a></p>
 							{% endfor %}
 						</td>
-
-						{% if subclases %}
-							<td>
-								{% for subclase in subclases %}
-									<p><a href="/{{ id_clase }}/{{ subclase[0] }}">{{ subclase[1] }}</a></p>
-								{% endfor %}
-							</td>
-						{% endif %}
-
-
-						{% if productos %}
-							<td>
-								{% for producto in productos %}
-									<a href="/{{ id_clase }}/{{ id_subclase }}/{{ producto[0] }}">{{ producto[1] }}</a> <br>
-								{% endfor %}
-							</td>
-						{% endif %}
-
-						{% if stocks or id_producto %}
-							<td>
-								<h3 style="text-align: center;">{{ producto[1] }}</h3>
-								<table border="1px">
-									<tr>
-										<th style="width: 5px;">Cantidad</th>
-										<th style="width: 5px;">Vencimiento</th>
-										<th style="width: 10px;">Meses</th>
-										<th style="width: 5px;" colspan="3">Acciones</th>
-									</tr>
-									{% for stock in stocks %}
-										<tr>
-											<td style="text-align: center;"> {{ stock[1] | trim }} </td>
-											<td style="text-align: center;"> {{ stock[2] | trim }} </td>
-											<td style="text-align: center;" bgcolor=
-												{% if stock[4] <=0 %} "red" 
-												{% elif stock[4] <=2 %} "yellow" 
-												{% else %} "green" {% endif %}> {{ stock[4] | trim }}
-											</td>
-											<td>
-												<a href="/abm/B/{{ id_clase }}/{{ id_subclase }}/{{ id_producto }}/{{ stock[0] }}">Borrar</a>
-											</td>
-											<td>
-												<a href="/abm/D/{{ id_clase }}/{{ id_subclase }}/{{ id_producto }}/{{ stock[0] }}">&nbsp-1&nbsp</a>
-											</td>
-											<td>
-												<a href="/abm/I/{{ id_clase }}/{{ id_subclase }}/{{ id_producto }}/{{ stock[0] }}">&nbsp+1&nbsp</a>
-											</td>
-										</tr>
-									{% endfor %}
-									<tr>
-										<td>
-											<input type="number" name="cantidad" style="width: 50px; text-align: right;">
-										</td>
-										<td>
-											<input type="text" name="fecha" style="width: 50px; text-align: center;">
-										</td>
-										<td style="text-align: center;">??</td>
-										<td colspan="3">
-											<input type="submit" name="send" value="Agregar" />
-										</td>
-									</tr>
-									<div>
-										<div class="flash-message">
-											<div class="msg-wrapper">
-												{% with messages=get_flashed_messages(with_categories=true) %}
-													{% if messages %}
-														{% for category, message in messages %}
-															<h3 style="color: crimson; text-align: center;">{{ message }}</h3>
-														{% endfor %}
-													{% endif %}
-												{% endwith %}
-											</div>
-										</div>
-									</div>
-								</table>
-							</td>
 					{% endif %}
 
-				</table>
-			</form>
-		</div>
+
+					{% if productos %}
+						<td>
+							{% for producto in productos %}
+								<a href="/{{ id_clase }}/{{ id_subclase }}/{{ producto[0] }}">{{ producto[1] }}</a> <br>
+							{% endfor %}
+						</td>
+					{% endif %}
+
+					{% if stocks or id_producto %}
+						<td>
+							<h3 style="text-align: center;">{{ producto[1] }}</h3>
+							<table border="1px" style="margin: 0 auto;">
+								<tr>
+									<th style="width: 5px;">Cantidad</th>
+									<th style="width: 5px;">Vencimiento</th>
+									<th style="width: 10px;">Meses</th>
+									<th style="width: 5px;" colspan="3">Acciones</th>
+								</tr>
+								{% for stock in stocks %}
+									<tr>
+										<td style="text-align: center;"> {{ stock[1] | trim }} </td>
+										<td style="text-align: center;"> {{ stock[2] | trim }} </td>
+										<td style="text-align: center;" bgcolor=
+											{% if stock[4] <=0 %} "red" 
+											{% elif stock[4] <=2 %} "yellow" 
+											{% else %} "green" {% endif %}> {{ stock[4] | trim }}
+										</td>
+										<td>
+											<a href="/abm/B/{{ id_clase }}/{{ id_subclase }}/{{ id_producto }}/{{ stock[0] }}">Borrar</a>
+										</td>
+										<td>
+											<a href="/abm/D/{{ id_clase }}/{{ id_subclase }}/{{ id_producto }}/{{ stock[0] }}">&nbsp-1&nbsp</a>
+										</td>
+										<td>
+											<a href="/abm/I/{{ id_clase }}/{{ id_subclase }}/{{ id_producto }}/{{ stock[0] }}">&nbsp+1&nbsp</a>
+										</td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<td>
+										<input type="number" name="cantidad" style="width: 50px; text-align: right;">
+									</td>
+									<td>
+										<input type="text" name="fecha" style="width: 50px; text-align: center;">
+									</td>
+									<td style="text-align: center;">??</td>
+									<td colspan="3">
+										<input type="submit" name="send" value="Agregar" />
+									</td>
+								</tr>
+								<div>
+									<div class="flash-message">
+										<div class="msg-wrapper">
+											{% with messages=get_flashed_messages(with_categories=true) %}
+												{% if messages %}
+													{% for category, message in messages %}
+														<h3 style="color: crimson; text-align: center;">{{ message }}</h3>
+													{% endfor %}
+												{% endif %}
+											{% endwith %}
+										</div>
+									</div>
+								</div>
+							</table>
+						</td>
+				{% endif %}
+
+			</table>
+		</form>
 	</div>
+
 </body>
 
 </html>
