@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="stock.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1830"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="stocks" custom_title="0" dock_id="3" table="4,6:mainstocks"/><table title="stocks" custom_title="0" dock_id="4" table="4,6:mainstocks"/><dock_state state="000000ff00000000fd0000000100000002000004c2000002acfc0100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fc00000000000004c20000010100fffffffa000000010100000002fb000000160064006f0063006b00420072006f00770073006500330100000000ffffffff0000010100fffffffb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000010100ffffff000002940000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="clase_subclase" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="95"/><column index="2" value="157"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="clases" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="21"/><column index="2" value="242"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="36"/><column index="2" value="202"/><column index="3" value="63"/><column index="4" value="87"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="stocks" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="62"/><column index="2" value="65"/><column index="3" value="53"/><column index="4" value="89"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="subclases" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="24"/><column index="2" value="199"/><column index="3" value="63"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">create view clase_subclase as
+select * from clases a
+inner join subclases b on a.id = b.id_clase;</sql><sql name="Edit View clase_subclase">insert into productos values(3, '3 mentas de 10 ml', 2, NULL)</sql><sql name="SQL 3">select * from productos a
+inner join clases b on b.id = a.id_clase
+left join subclases c on c.id = a.id_subclase</sql><sql name="SQL 4">insert into stocks values (1, 2, 01-6-2025, 1)</sql><sql name="SQL 5*">-- drop view vw_productos;
+-- create view vw_productos as
+-- select c.clase, d.subclase, a.producto, b.cantidad, b.fecha
+-- 	, (substr(fecha, instr(fecha, '-') + 1, 4) * 12 + substr(fecha, 1, instr(fecha, '-') - 1))  - (strftime('%Y', datetime()) * 12 + strftime('%m', datetime()))
+--  from productos a
+-- inner join stocks b on b.id_producto = a.id
+-- inner join clases c on c.id = a.id_clase
+-- left join subclases d on d.id = a.id_subclase;
+
+-- select * from vw_productos
+
+select * from productos order by id desc</sql><sql name="SQL 9*">-- tabla subclases
+-- insert into subclases values (4, 'CUIDADOS FRECUENTES', 3);
+-- insert into subclases values (5, 'CUIDADOS VIVIFICANTES', 3);
+-- insert into subclases values (6, 'CUIDADOS FEMENINOS', 3);
+-- insert into subclases values (7, 'CUIDADOS DE PROTECCIÓN', 3);
+-- insert into subclases values (8, 'CUIDADOS DE PROTECCIÓN FÍSICA', 3);
+-- insert into subclases values (9, 'CUIDADOS DE INVIERNO', 3);
+-- insert into subclases values (10, 'CUIDADOS DEL CABELLO', 3);
+-- insert into subclases values (11, 'CUIDADOS DEL CUERPO', 3);
+-- insert into subclases values (12, 'CUIDADO DEL ROSTRO', 3);
+-- insert into subclases values (13, 'CUIDADO DEL ROSTRO - VITAL JUST', 3);
+-- insert into subclases values (14, 'CUIDADO DE MANOS, PIERNAS Y PIES', 3);
+
+-- tablas productos
+-- insert into productos values (1, 'Aceite Carpe Diem de 5 ml', 1, 1);
+-- insert into productos values (2, 'Aceite Esencial Blend Fresh de 5 ml', 1, 1);
+-- insert into productos values (3, 'Aceite Esencial Blend Harmony de 5 ml', 1, 1);
+-- insert into productos values (4, 'Aceite Esencial Blend Pure Protect de 5 ml', 1, 1);
+-- insert into productos values (5, 'Aceite Esencial de bergamota de 10 ml', 1, 1);
+-- insert into productos values (6, 'Aceite Esencial de bergamota de 5 ml', 1, 1);
+-- insert into productos values (7, 'Aceite Esencial de eucalipto de 10 ml', 1, 1);
+-- insert into productos values (8, 'Aceite Esencial de eucalipto de 5 ml', 1, 1);
+-- insert into productos values (9, 'Aceite Esencial de geranio de 10 ml', 1, 1);
+-- insert into productos values (10, 'Aceite Esencial de jazmín de 10 ml', 1, 1);
+-- insert into productos values (11, 'Aceite Esencial de lavanda de 10 ml', 1, 1);
+-- insert into productos values (12, 'Aceite Esencial de lavanda de 5 ml', 1, 1);
+-- insert into productos values (13, 'Aceite Esencial de limon de 5 ml', 1, 1);
+-- insert into productos values (14, 'Aceite Esencial de mandarina de 5 ml', 1, 1);
+-- insert into productos values (15, 'Aceite Esencial de manzanilla de 10 ml', 1, 1);
+-- insert into productos values (16, 'Aceite Esencial de naranja de 10 ml', 1, 1);
+-- insert into productos values (17, 'Aceite Esencial de naranja de 5 ml', 1, 1);
+-- insert into productos values (18, 'Aceite Esencial de neroli de 10 ml', 1, 1);
+-- insert into productos values (19, 'Aceite Esencial de palmarosa de 10 ml', 1, 1);
+-- insert into productos values (20, 'Aceite Esencial de Pomelo de 5 ml', 1, 1);
+-- insert into productos values (21, 'Aceite Esencial de romero de 10 ml', 1, 1);
+-- insert into productos values (22, 'Aceite Fresh de 5 ml', 1, 1);
+-- insert into productos values (23, 'Aceite Pure Protect de 5 ml', 1, 1);
+-- insert into productos values (24, 'Aceite True Love de 5 ml', 1, 1);
+-- insert into productos values (25, 'Aceite Zen Meditation', 1, 1);
+
+-- insert into productos values (26, 'Aromablends Aceite Corporal de 120 ml', 1, 2);
+
+-- insert into productos values (27, 'Difussor Galaxy + aceite de 5 ml de regalo', 1, 3);
+-- insert into productos values (28, 'Difussor Pebble + aceite de 5 ml de regalo', 1, 3);
+-- insert into productos values (29, 'Difussor Shell + aceite de 5 ml de regalo', 1, 3);
+-- insert into productos values (30, 'Difussor Smile + aceite de 5 ml de regalo', 1, 3);
+
+-- insert into productos values (31, '3 mentas de 10 ml', 2, NULL);
+-- insert into productos values (32, 'Anti stress de 10 ml', 2, NULL);
+-- insert into productos values (33, 'Anti stress de 20 ml', 2, NULL);
+-- insert into productos values (34, 'Aroma Care Relax de 75 ml', 2, NULL);
+-- insert into productos values (35, 'Aroma Care Vitaly de 75 ml', 2, NULL);
+-- insert into productos values (36, 'Aroma Care Vitaly, Bruma 75 ml y gel de ducha 75 g', 2, NULL);
+-- insert into productos values (37, 'Esencia para baño Melisa x 50 ml', 2, NULL);
+-- insert into productos values (38, 'Esencia para baño Sandalo x 50 ml', 2, NULL);
+-- insert into productos values (39, 'Espuma de baño hipérico y Bergamota', 2, NULL);
+-- insert into productos values (40, 'Essential 3 - Cada Roll on por separado', 2, NULL);
+-- insert into productos values (41, 'Essential 3 - Guduchi, antistress y Oleo 31 de 5 ml c/u', 2, NULL);
+-- insert into productos values (42, 'Flores Blancas de 10 ml', 2, NULL);
+-- insert into productos values (43, 'Flores de Primavera de 10 ml', 2, NULL);
+-- insert into productos values (44, 'Flores de verano de 10 ml', 2, NULL);
+-- insert into productos values (45, 'Gardenia Nights de 5 ml', 2, NULL);
+-- insert into productos values (46, 'Harmony de 10 ml', 2, NULL);
+-- insert into productos values (47, 'Revitalizador Guducchi de 10 ml', 2, NULL);
+-- insert into productos values (48, 'SOS Motivation de 5 ml', 2, NULL);
+
+-- insert into productos values (49, 'Crema Herbal de 10 grs', 3, 4);
+-- insert into productos values (50, 'Oleo 31 de 10 ml', 3, 4);
+-- insert into productos values (51, 'Oleo 31 de 20 ml', 3, 4);
+-- insert into productos values (52, 'Oleo 31 de 50 ml', 3, 4);
+-- insert into productos values (53, 'Bálsamo  Loción Corporal con Árnica de 200 ml c/ Spray', 3, 5);
+-- insert into productos values (54, 'Bálsamo  Loción Corporal con Árnica de 290 ml', 3, 5);
+-- insert into productos values (55, 'Bálsamo  Loción Corporal con Árnica de 45 ml', 3, 5);
+-- insert into productos values (56, 'Espuma de baño con Flores de Heno y Edelweiss de 250 ml', 3, 5);
+-- insert into productos values (57, 'Deo Intim c/ Germen Trigo y Mnazanilla de 250 ml', 3, 6);
+-- insert into productos values (58, 'Deo Intim c/ Germen Trigo y Mnazanilla de 45 ml', 3, 6);
+-- insert into productos values (59, 'Gel Intim - Gel Humectante de Soja de 30 ml', 3, 6);
+-- insert into productos values (60, 'Esencia para Baño de Equinacea y Ginseng Siberiano de 50 ml', 3, 7);
+-- insert into productos values (61, 'Hand Gel Antibacterial de 50 gr', 3, 7);
+-- insert into productos values (62, 'Insect Spray de 75 ml', 3, 7);
+-- insert into productos values (63, 'Spray Antibacterial de limón de 200 ml', 3, 7);
+-- insert into productos values (64, 'Crema Enebro de 25 grs', 3, 8);
+-- insert into productos values (65, 'Crema Enebro de 60 grs', 3, 8);
+-- insert into productos values (66, 'Crema Enebro de 96 grs', 3, 8);
+-- insert into productos values (67, 'Crema San Activ de Sales del Mar Muerto de 100 grs', 3, 8);
+-- insert into productos values (68, 'Esencia para Baño de Enebro de 50 ml', 3, 8);
+-- insert into productos values (69, 'Gel cremoso de arnica de 30 grs', 3, 8);
+-- insert into productos values (70, 'Gel cremoso de arnica de 60 grs', 3, 8);
+-- insert into productos values (71, 'Gel cremoso de consuelda de 60 grs', 3, 8);
+-- insert into productos values (72, 'Venen Gel 60 ml', 3, 8);
+-- insert into productos values (73, 'Crema de tomillo de 25 grs', 3, 9);
+-- insert into productos values (74, 'Crema de tomillo de 96 grs', 3, 9);
+-- insert into productos values (75, 'Esencia para baño de tomillo de 50 ml', 3, 9);
+-- insert into productos values (76, 'Eucasol Spray Eucalipto de 15 ml', 3, 9);
+-- insert into productos values (77, 'Eucasol Spray Eucalipto de 75 ml', 3, 9);
+-- insert into productos values (78, 'Loción Capilar con Epilobio y Romero 30 ml', 3, 10);
+-- insert into productos values (79, 'Máscara Capilar con Arándanos y Castañas de la India 100 grs', 3, 10);
+-- insert into productos values (80, 'Serum reparador capilar', 3, 10);
+-- insert into productos values (81, 'Shampoo San Activ con sales del mar Muerto 250 ml', 3, 10);
+-- insert into productos values (82, 'Shampoo Tea Tree con Manuca y Rosalina de 150 ml', 3, 10);
+-- insert into productos values (83, 'Aceite de Tea Tree con Manuca y Rosalina de 10 ml', 3, 11);
+-- insert into productos values (84, 'Aceite de Tea Tree con Manuca y Rosalina de 5 ml', 3, 11);
+-- insert into productos values (85, 'Antitranspirante de malva de 50 grs', 3, 11);
+-- insert into productos values (86, 'Antitranspirante Edlweiss de 50 grs', 3, 11);
+-- insert into productos values (87, 'Body Butter de Sándalo de 110 grs', 3, 11);
+-- insert into productos values (88, 'Body Fresh - gel de Salvia de 96 grs', 3, 11);
+-- insert into productos values (89, 'Care &amp; Repailr Oil de 25 ml', 3, 11);
+-- insert into productos values (90, 'Crema Blanqueadora Jack Fruit de 25 grs', 3, 11);
+-- insert into productos values (91, 'Crema Blanqueadora Jack Fruit de 25 grs', 3, 11);
+-- insert into productos values (92, 'Cremá de Calendula de 100 grs', 3, 11);
+-- insert into productos values (93, 'Cremá de Calendula de 25 grs', 3, 11);
+-- insert into productos values (94, 'Cremá de Calendula de 60 grs', 3, 11);
+-- insert into productos values (95, 'Crema de lavanda con Hammamelis de 25 grs', 3, 11);
+-- insert into productos values (96, 'Crema de lavanda con Hammamelis de 60 grs', 3, 11);
+-- insert into productos values (97, 'Crema de Tea Tree con Manuca y Rosalina de 25 grs', 3, 11);
+-- insert into productos values (98, 'Crema de Tea Tree con Manuca y Rosalina de 60 grs', 3, 11);
+-- insert into productos values (99, 'Crema Lamelloderm de 30 grs', 3, 11);
+-- insert into productos values (100, 'Desodorante de Lino Alpino de 50 grs', 3, 11);
+-- insert into productos values (101, 'Dtox Gel Exfoliante', 3, 11);
+-- insert into productos values (102, 'Espuma de baño con miel, leche y arroz de 250 ml', 3, 11);
+-- insert into productos values (103, 'Espuma para Baño con Algas Marinas y Te Verde de 250 ml', 3, 11);
+-- insert into productos values (104, 'Lifting Fluid 75 grs', 3, 11);
+-- insert into productos values (105, 'Loción cremosa de Almendras de 250 ml', 3, 11);
+-- insert into productos values (106, 'Loción cremosa de Malva de 125 ml - no está más en lista', 3, 11);
+-- insert into productos values (107, 'Shaping Fluid 100 grs', 3, 11);
+-- insert into productos values (108, 'Crema de Malva para el rostro de 55 grs', 3, 12);
+-- insert into productos values (109, 'Crema para Labios de caléndula de 10 grs', 3, 12);
+-- insert into productos values (110, 'Gel limpiador Facial con Sauce Blanco y Tea Tree de 125 ml', 3, 12);
+-- insert into productos values (111, 'Gel purificante con Moambe para el rostro x 25 grs', 3, 12);
+-- insert into productos values (112, 'Mascarilla de Moambe para rostro de 50 grs', 3, 12);
+-- insert into productos values (113, 'Sun Care FPS 30 de 25 grs', 3, 12);
+-- insert into productos values (114, 'Tónico Astrigente Facial con Sauce Blanco y Tea Tree de 125 ml', 3, 12);
+-- insert into productos values (115, 'Tonico Herbal Facial Tea Treem Manuca y Rosalina', 3, 12);
+-- insert into productos values (116, 'Bruma de Rosas de 45 ml', 3, 13);
+-- insert into productos values (117, 'Happy Box', 3, 13);
+-- insert into productos values (118, 'Vital Just  Desmaquillante Facial Miscelar de 150 grs.', 3, 13);
+-- insert into productos values (119, 'Vital Just Crema de Hidratación profunda de 25 grs', 3, 13);
+-- insert into productos values (120, 'Vital Just Crema de Hidratación profunda de 50 grs', 3, 13);
+-- insert into productos values (121, 'Vital Just Crema Exfoliante x 50 grs', 3, 13);
+-- insert into productos values (122, 'Vital Just crema hidratante de día x 25 grs', 3, 13);
+-- insert into productos values (123, 'Vital Just crema hidratante de día x 50 grs', 3, 13);
+-- insert into productos values (124, 'Vital Just crema hidratante de noche x 25 grs', 3, 13);
+-- insert into productos values (125, 'Vital Just crema hidratante de noche x 50 grs', 3, 13);
+-- insert into productos values (126, 'Vital Just Crema para el Contorno de Ojos y labios de 30 grs', 3, 13);
+-- insert into productos values (127, 'Vital Just Gel Limpiador facial de 100 grs', 3, 13);
+-- insert into productos values (128, 'Vital Just Gel Limpiador facial de 50 grs', 3, 13);
+-- insert into productos values (129, 'Vital Just Hidro Gel Matificante de 50grs', 3, 13);
+-- insert into productos values (130, 'Vital Just Mascarilla Renovacion Intensiva de 50 grs', 3, 13);
+-- insert into productos values (131, 'Vital Just Serum facial de 30 grs', 3, 13);
+-- insert into productos values (132, 'Vital Just Tónico Facial de 150 ml', 3, 13);
+-- insert into productos values (133, 'Alpencrem 50 grs', 3, 14);
+-- insert into productos values (134, 'Crema para manos de Manzanilla de 100 grs', 3, 14);
+-- insert into productos values (135, 'Crema para manos de Manzanilla de 25 grs', 3, 14);
+-- insert into productos values (136, 'Crema para manos de Manzanilla de 60 grs', 3, 14);
+-- insert into productos values (137, 'Pedibalm - Loción herbal para piernas de 150 grs', 3, 14);
+-- insert into productos values (138, 'Pedibath - Baño Herbal para Pies de 125 grs', 3, 14);
+-- insert into productos values (139, 'Pedibon -Desodorante herbal para pies de 75 grs', 3, 14);
+-- insert into productos values (140, 'Pedicream - Crema Herbal para Pies de 25 grs', 3, 14);
+-- insert into productos values (141, 'Pedicream - Crema Herbal para Pies de 96 grs', 3, 14);
+-- insert into productos values (142, 'Pediscrub -  Crema Exfoliante Herbal para Pies de 75 grs', 3, 14);
+-- insert into productos values (143, 'Serum para manos de Peonía China y Gayuba de 25 grs', 3, 14);
+-- insert into productos values (144, 'Spray de Tea Tree con Manuca y Rosalina de 75 ml', 3, 14);
+
+-- insert into productos values (145, 'Aceite de ducha Sacha Inchi y Espino Amarillo de 125 ml', 4, NULL);
+-- insert into productos values (146, 'Crema dermatológica de bebé', 4, NULL);
+-- insert into productos values (147, 'Gel de ducha Guduchi y Citronela', 4, NULL);
+-- insert into productos values (148, 'Gel de Lavanda de 150 ml', 4, NULL);
+-- insert into productos values (149, 'Oral Care', 4, NULL);
+-- insert into productos values (150, 'Shampoo de bebé', 4, NULL);</sql><current_tab id="4"/></tab_sql></sqlb_project>

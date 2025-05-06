@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>productos</h1>
+	<br><br>
+	datos0 {{ datos[0][0] }} <br><br>
+	datos1 {{ datos[0][1] }}
+	<table>
+		{% for dato in datos %}
+			<h3>counter dato {{ loop.index }}</h3>
+			<h3>usando index {{ datos[0][loop.index] }}</h3>
+			{% for clase in dato %}
+				<h3>clase dato {{ loop.index }} / {{ loop.last }}</h3>
+				<tr>
+					<td>{{ clase[0] }}</td>
+				</tr>
+				{% for subclase in clase[1] %}
+					<tr>
+						<td>....{{ subclase[0] }}</td>
+					</tr>
+					{% for producto in subclase[1] %}
+						<tr>
+							<td>........{{ producto[0] }}</td>
+						</tr>
+						{% for detalle in producto[1] %}</h2>
+							<tr>
+								<td>............{{ detalle[0] }} -- {{ detalle[1] }}</td>
+							</tr>
+						{% endfor %}
+					{% endfor %}
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}    
+	</table>
+</body>
+</html>

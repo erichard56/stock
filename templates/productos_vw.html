@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>productos</h1>
+	<br><br>
+	<table border="1px">
+		<th>
+			<tr>
+				<td>Clase</td>
+				<td>Subclase</td>
+				<td>Producto</td>
+				<td>Cantidad</td>
+				<td>Fecha</td>
+				<td>Vencimiento</td>
+			</tr>
+		</th>
+		{% for producto in productos %}
+			<tr>
+				{% if loop.index == 1 %}
+					<td>{{ producto[0] }}</td>
+					<td>{{ producto[1] }}</td>
+					<td>{{ producto[2] }}</td>
+					<td bgcolor=
+						{% if producto[5] <= 0 %} "red" 
+						{% elif producto[5] <= 2 %} "yellow"
+						{% else %} "green" {% endif %}>{{ producto[3] }}</td>
+					<td bgcolor=
+						{% if producto[5] <= 0 %} "red" 
+						{% elif producto[5] <= 2 %} "yellow"
+						{% else %} "green" {% endif %}>{{ producto[4] }}</td>
+					<td bgcolor=
+						{% if producto[5] <= 0 %} "red" 
+						{% elif producto[5] <= 2 %} "yellow"
+						{% else %} "green" {% endif %}>{{ producto[5] }}</td>
+				{% else %}
+					{% if loop.previtem[0] == producto[0] %}
+						<td></td>
+					{% else %}
+						<td>{{ producto[0] }}</td>
+					{% endif %}
+
+					{% if loop.previtem[1] == producto[1] %}
+						<td></td>
+					{% else %}
+						<td>{{ producto[1] }}</td>
+					{% endif %}
+
+					{% if loop.previtem[2] == producto[2] %}
+						<td></td>
+					{% else %}
+						<td>{{ producto[2] }}</td>
+					{% endif %}
+
+					<td bgcolor=
+						{% if producto[5] <= 0 %} "red" 
+						{% elif producto[5] <= 2 %} "yellow"
+						{% else %} "green" {% endif %}>{{ producto[3] }}</td>
+					<td bgcolor=
+						{% if producto[5] <= 0 %} "red" 
+						{% elif producto[5] <= 2 %} "yellow"
+						{% else %} "green" {% endif %}>{{ producto[4] }}</td>
+					<td bgcolor=
+						{% if producto[5] <= 0 %} "red" 
+						{% elif producto[5] <= 2 %} "yellow"
+						{% else %} "green" {% endif %}>{{ producto[5] }}</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>
