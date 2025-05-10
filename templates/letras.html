@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Letras</title>
+</head>
+<body>
+	<form method="POST" action="">
+
+	<table border="1px" style="width: 60%;">
+		<tr>
+			<th style="width: 5%;">Letras</th>
+			<th style="width: 20%;">Productos</th>
+			<th style="width: 5%;">Stocks</th>
+		</tr>
+		<tr style="vertical-align: top; text-align: center;">
+			<td>
+				{% for letra in letras %}
+					<a href="/prods/{{ letra[0] }}" style="font-size: x-large;">&nbsp&nbsp{{ letra[0] }}&nbsp&nbsp</a>
+					<br>
+				{% endfor %}
+			</td>
+
+			<td>
+				{% if productos %}
+					{% for producto in productos %}
+						<a href="/prodstock/{{ producto[1][0] }}/{{ producto[0] }}">{{ producto[1] }}</a>
+						<br><br>
+					{% endfor %}
+				{% endif %}
+			</td>
+
+			<td>
+				{% if stocks or id_producto %}
+					{% for producto in productos %}
+						{% if producto[0] | int == id_producto | int %}
+							<h3 style="text-align: center; color: violet;">{{ producto[1] }}</h3>
+						{% endif %}
+					{% endfor %}
+					<table border="1px" style="margin: 0 auto; margin-top: 0;">
+						<tr style="vertical-align: top;">
+							<th style="width: 5px;">Cantidad</th>
+							<th style="width: 5px;">Vencimiento</th>
+							<th style="width: 10px;">Meses</th>
+							<th style="width: 5px;" colspan="3">Acciones</th>
+						</tr>
+						{% for stock in stocks %}
+							<tr>
+								<td style="text-align: center;"> {{ stock[1] | trim }} </td>
+								<td style="text-align: center;"> {{ stock[2] | trim }} </td>
+								<td style="text-align: center;" bgcolor=
+									{% if stock[4] <=0 %} "red" 
+									{% elif stock[4] <=2 %} "yellow" 
+									{% else %} "green" {% endif %}> {{ stock[4] | trim }}
+								</td>
+								<td>
+									<a href="/abmlet/B/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">Borrar</a>
+								</td>
+								<td>
+									<a href="/abmlet/D/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">&nbsp-1&nbsp</a>
+								</td>
+								<td>
+									<a href="/abmlet/I/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">&nbsp+1&nbsp</a>
+								</td>
+							</tr>
+						{% endfor %}
+						<td>
+							<input type="number" name="cantidad" style="width: 50px; text-align: right;">
+						</td>
+						<td>
+							<input type="text" name="fecha" style="width: 50px; text-align: center;">
+						</td>
+						<td style="text-align: center;">??</td>
+						<td colspan="3">
+							<input type="submit" name="send" value="Agregar" />
+						</td>
+						<div>
+							<div class="flash-message">
+								<div class="msg-wrapper">
+									{% with messages=get_flashed_messages(with_categories=true) %}
+										{% if messages %}
+											{% for category, message in messages %}
+												<h3 style="color: crimson; text-align: center;">{{ message }}</h3>
+											{% endfor %}
+										{% endif %}
+									{% endwith %}
+								</div>
+							</div>
+						</div>
+					</table>
+				{% endif %}
+			</td>
+		</tr>
+
+	</table>
+
+</form>
+
+</body>
+</html>
