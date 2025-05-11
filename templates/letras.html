@@ -9,6 +9,7 @@
 	<form method="POST" action="">
 
 	<table border="1px" style="width: 60%;">
+		<tr> <th colspan="3"><h2>Vero Stock</h2></th> </tr>
 		<tr>
 			<th style="width: 5%;">Letras</th>
 			<th style="width: 20%;">Productos</th>
@@ -17,7 +18,7 @@
 		<tr style="vertical-align: top; text-align: center;">
 			<td>
 				{% for letra in letras %}
-					<a href="/prods/{{ letra[0] }}" style="font-size: x-large;">&nbsp&nbsp{{ letra[0] }}&nbsp&nbsp</a>
+					<a href="/letras/{{ letra[0] }}" style="font-size: x-large;">&nbsp&nbsp{{ letra[0] }}&nbsp&nbsp</a>
 					<br>
 				{% endfor %}
 			</td>
@@ -25,7 +26,7 @@
 			<td>
 				{% if productos %}
 					{% for producto in productos %}
-						<a href="/prodstock/{{ producto[1][0] }}/{{ producto[0] }}">{{ producto[1] }}</a>
+						<a href="/letras/{{ producto[1][0] }}/{{ producto[0] }}">{{ producto[1] }}</a>
 						<br><br>
 					{% endfor %}
 				{% endif %}

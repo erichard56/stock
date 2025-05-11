@@ -9,49 +9,7 @@ app.config['SECRET_KEY'] = 'anything-hard-to-guess'
 conn = sqlite3.connect(DATABASE, check_same_thread=False)
 cursor = conn.cursor()
 
-@app.route('/', methods=['GET', 'POST'])
-def inicioC():
-	if (request.method == 'GET'):
-		q1 = 'select * from clases'
-		cursor.execute(q1)
-		clases = cursor.fetchall()
-		ctx = { 'clases':clases }
-		return(render_template('login.html', **ctx))
-
-@app.route('/<id_clase>', methods=['GET'])
-def inicioCS(id_clase):
-	if (request.method == 'GET'):
-		q1 = 'select * from clases'
-		cursor.execute(q1)
-		clases = cursor.fetchall()
-		
-		q1 = 'select * from subclases where id_clase = ' + str(id_clase)
-		cursor.execute(q1)
-		subclases = cursor.fetchall()
-
-		ctx = { 'clases':clases, 'id_clase':id_clase, 
-		 		'subclases':subclases }
-		return(render_template('login.html', **ctx))
-
-@app.route('/<id_clase>/<id_subclase>', methods=['GET'])
-def inicioCSP(id_clase, id_subclase):
-	if (request.method == 'GET'):
-		q1 = 'select * from clases'
-		cursor.execute(q1)
-		clases = cursor.fetchall()
-		
-		q1 = 'select * from subclases where id_clase = ' + str(id_clase)
-		cursor.execute(q1)
-		subclases = cursor.fetchall()
-
-		q1 = 'select * from productos where id_clase = ' + str(id_clase) + ' and id_subclase = ' + str(id_subclase)
-		cursor.execute(q1)
-		productos = cursor.fetchall()
-
-		ctx = { 'clases':clases, 'id_clase':id_clase, 
-		 		'subclases':subclases, 'id_subclase':id_subclase, 
-		 		'productos':productos }
-		return(render_template('login.html', **ctx))
+###########################
 
 def chk_fecha(fecha):
 	fecha = fecha.replace('/', '-')
@@ -80,81 +38,37 @@ def chk_fecha(fecha):
 		return(-4)	# falta el separador
 
 
-@app.route('/<id_clase>/<id_subclase>/<id_producto>', methods=['GET', 'POST'])
-def inicioCSPS(id_clase, id_subclase, id_producto):
-	q1 = 'select * from clases'
+##############
+
+@app.route('/')
+@app.route('/letras', methods=['GET', 'POST'])
+@app.route('/letras/<letra>', methods=['GET', 'POST'])
+@app.route('/letras/<letra>/<id_producto>', methods=['GET', 'POST'])
+def letras(letra = None, id_producto = None):
+
+	# obtengo todas las primeras letras de todos los producto	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
+	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
 	cursor.execute(q1)
-	clases = cursor.fetchall()
+	letras = cursor.fetchall()
+
+	# si hay letra busco todos los productos que comiencen por esa letra
+	if (letra is not None):
+		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
+		cursor.execute(q1)
+		productos = cursor.fetchall()
+	else:
+		productos = None
 	
-	q1 = 'select * from subclases where id_clase = ' + str(id_clase)
-	cursor.execute(q1)
-	subclases = cursor.fetchall()
-
-	q1 = 'select * from productos where id_clase = ' + str(id_clase) + ' and id_subclase = ' + str(id_subclase)
-	cursor.execute(q1)
-	productos = cursor.fetchall()
-
-	q1 = 'select * from productos where id = ' + str(id_producto)
-	cursor.execute(q1)
-	producto = cursor.fetchone()
-
-	if (request.method == 'GET'):
+	if (id_producto is not None):
 		q1 = 'select *, ' + \
 			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
 			' where id_producto = ' + str(id_producto)
 		cursor.execute(q1)
 		stocks = cursor.fetchall()
-		ctx = { 'clases':clases, 'id_clase':id_clase, 'subclases':subclases, 
-		 		'id_subclase':id_subclase, 'productos':productos, 'id_producto':id_producto, 
-				'producto':producto, 'stocks':stocks }
-		return(render_template('login.html', **ctx))
+	else:
+		stocks = None		
 
-	elif (request.method == 'POST'):
-		cantidad = request.form.get('cantidad')
-		fecha = request.form.get('fecha')
-		fecha = chk_fecha(fecha)
-		if (type(fecha) == str):
-			q1 = 'insert into stocks values (NULL, ' + \
-				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
-			cursor.execute(q1)
-			conn.commit()
-
-		q1 = 'select *, ' + \
-			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-			' where id_producto = ' + str(id_producto)
-		cursor.execute(q1)
-		stocks = cursor.fetchall()
-		ctx = { 'clases':clases, 'id_clase':id_clase, 
-		 		'subclases':subclases, 'id_subclase':id_subclase, 
-				'productos':productos, 'id_producto':id_producto, 
-				'stocks':stocks }
-		return(render_template('login.html', **ctx))
-
-
-@app.route('/abm/<oper>/<id_clase>/<id_subclase>/<id_producto>/<id_stock>', methods=['GET', 'POST'])
-def abm(oper, id_clase, id_subclase, id_producto, id_stock):
-	q1 = 'select * from stocks where id = ' + str(id_stock)
-	cursor.execute(q1)
-	stock = cursor.fetchone()
-
-	if (request.method == 'GET'):
-
-		if (oper == 'B'):		# borrar registro
-			q1 = 'delete from stocks where id = ' + str(id_stock)
-			cursor.execute(q1)
-			conn.commit()
-
-		elif (oper == 'D'):		# decrementar 1
-			q1 = 'update stocks set cantidad = cantidad - 1 where id = ' + str(id_stock)
-			cursor.execute(q1)
-			conn.commit()
-
-		elif (oper == 'I'):		# incrementar 1
-			q1 = 'update stocks set cantidad = cantidad + 1 where id = ' + str(id_stock)
-			cursor.execute(q1)
-			conn.commit()
-
-	elif (request.method == 'POST'):
+	if (request.method == 'POST'):
 		cantidad = request.form.get('cantidad')
 		fecha = request.form.get('fecha')
 		fecha = chk_fecha(fecha)
@@ -167,56 +81,16 @@ def abm(oper, id_clase, id_subclase, id_producto, id_stock):
 			cursor.execute(q1)
 			conn.commit()
 
+		# obtengo todos los registros de stock
 		q1 = 'select *, ' + \
 			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
 			' where id_producto = ' + str(id_producto)
 		cursor.execute(q1)
 		stocks = cursor.fetchall()
-	
-	q1 = 'select * from clases'
-	cursor.execute(q1)
-	clases = cursor.fetchall()
-	
-	q1 = 'select * from subclases where id_clase = ' + str(id_clase)
-	cursor.execute(q1)
-	subclases = cursor.fetchall()
-
-	q1 = 'select * from productos where id_clase = ' + str(id_clase) + ' and id_subclase = ' + str(id_subclase)
-	cursor.execute(q1)
-	productos = cursor.fetchall()
-
-	q1 = 'select *, ' + \
-		' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-		' where id_producto = ' + str(id_producto)
-	cursor.execute(q1)
-	stocks = cursor.fetchall()
-
-	ctx = { 'clases':clases, 'id_clase':id_clase, 
-			'subclases':subclases, 'id_subclase':id_subclase, 
-			'productos':productos, 'id_producto':id_producto, 
-			'stocks':stocks }
-	return(render_template('login.html', **ctx))
 
 
-@app.route('/letras')
-def letras():
-	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
-	cursor.execute(q1)
-	letras = cursor.fetchall()
-	ctx = { 'letras':letras }
-	return(render_template('letras.html', **ctx))
 
-@app.route('/prods/<letra>')
-def prods(letra):
-	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
-	cursor.execute(q1)
-	letras = cursor.fetchall()
-
-	q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
-	cursor.execute(q1)
-	productos = cursor.fetchall()
-
-	ctx = { 'letras':letras, 'productos':productos }
+	ctx = { 'letras':letras, 'letra':letra, 'productos':productos, 'id_producto':id_producto, 'stocks':stocks }
 	return(render_template('letras.html', **ctx))
 
 @app.route('/prodstock/<letra>/<id_producto>', methods=['GET', 'POST'])
@@ -303,6 +177,169 @@ def abmlet(oper, letra, id_producto, id_stock):
 
 	ctx = { 'letras':letras, 'letra':letra,  'productos':productos, 'id_producto':id_producto, 'stocks':stocks }
 	return(render_template('letras.html', **ctx))
+
+
+# @app.route('/', methods=['GET', 'POST'])
+# def inicioC():
+# 	if (request.method == 'GET'):
+# 		q1 = 'select * from clases'
+# 		cursor.execute(q1)
+# 		clases = cursor.fetchall()
+# 		ctx = { 'clases':clases }
+# 		return(render_template('login.html', **ctx))
+
+# @app.route('/<id_clase>', methods=['GET'])
+# def inicioCS(id_clase):
+# 	if (request.method == 'GET'):
+# 		q1 = 'select * from clases'
+# 		cursor.execute(q1)
+# 		clases = cursor.fetchall()
+		
+# 		q1 = 'select * from subclases where id_clase = ' + str(id_clase)
+# 		cursor.execute(q1)
+# 		subclases = cursor.fetchall()
+
+# 		ctx = { 'clases':clases, 'id_clase':id_clase, 
+# 		 		'subclases':subclases }
+# 		return(render_template('login.html', **ctx))
+
+# @app.route('/<id_clase>/<id_subclase>', methods=['GET'])
+# def inicioCSP(id_clase, id_subclase):
+# 	if (request.method == 'GET'):
+# 		q1 = 'select * from clases'
+# 		cursor.execute(q1)
+# 		clases = cursor.fetchall()
+		
+# 		q1 = 'select * from subclases where id_clase = ' + str(id_clase)
+# 		cursor.execute(q1)
+# 		subclases = cursor.fetchall()
+
+# 		q1 = 'select * from productos where id_clase = ' + str(id_clase) + ' and id_subclase = ' + str(id_subclase)
+# 		cursor.execute(q1)
+# 		productos = cursor.fetchall()
+
+# 		ctx = { 'clases':clases, 'id_clase':id_clase, 
+# 		 		'subclases':subclases, 'id_subclase':id_subclase, 
+# 		 		'productos':productos }
+# 		return(render_template('login.html', **ctx))
+
+# @app.route('/<id_clase>/<id_subclase>/<id_producto>', methods=['GET', 'POST'])
+# def inicioCSPS(id_clase, id_subclase, id_producto):
+# 	q1 = 'select * from clases'
+# 	cursor.execute(q1)
+# 	clases = cursor.fetchall()
+	
+# 	q1 = 'select * from subclases where id_clase = ' + str(id_clase)
+# 	cursor.execute(q1)
+# 	subclases = cursor.fetchall()
+
+# 	q1 = 'select * from productos where id_clase = ' + str(id_clase) + ' and id_subclase = ' + str(id_subclase)
+# 	cursor.execute(q1)
+# 	productos = cursor.fetchall()
+
+# 	q1 = 'select * from productos where id = ' + str(id_producto)
+# 	cursor.execute(q1)
+# 	producto = cursor.fetchone()
+
+# 	if (request.method == 'GET'):
+# 		q1 = 'select *, ' + \
+# 			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+# 			' where id_producto = ' + str(id_producto)
+# 		cursor.execute(q1)
+# 		stocks = cursor.fetchall()
+# 		ctx = { 'clases':clases, 'id_clase':id_clase, 'subclases':subclases, 
+# 		 		'id_subclase':id_subclase, 'productos':productos, 'id_producto':id_producto, 
+# 				'producto':producto, 'stocks':stocks }
+# 		return(render_template('login.html', **ctx))
+
+# 	elif (request.method == 'POST'):
+# 		cantidad = request.form.get('cantidad')
+# 		fecha = request.form.get('fecha')
+# 		fecha = chk_fecha(fecha)
+# 		if (type(fecha) == str):
+# 			q1 = 'insert into stocks values (NULL, ' + \
+# 				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+# 			cursor.execute(q1)
+# 			conn.commit()
+
+# 		q1 = 'select *, ' + \
+# 			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+# 			' where id_producto = ' + str(id_producto)
+# 		cursor.execute(q1)
+# 		stocks = cursor.fetchall()
+# 		ctx = { 'clases':clases, 'id_clase':id_clase, 
+# 		 		'subclases':subclases, 'id_subclase':id_subclase, 
+# 				'productos':productos, 'id_producto':id_producto, 
+# 				'stocks':stocks }
+# 		return(render_template('login.html', **ctx))
+
+
+@app.route('/abm/<oper>/<id_clase>/<id_subclase>/<id_producto>/<id_stock>', methods=['GET', 'POST'])
+def abm(oper, id_clase, id_subclase, id_producto, id_stock):
+	q1 = 'select * from stocks where id = ' + str(id_stock)
+	cursor.execute(q1)
+	stock = cursor.fetchone()
+
+	if (request.method == 'GET'):
+
+		if (oper == 'B'):		# borrar registro
+			q1 = 'delete from stocks where id = ' + str(id_stock)
+			cursor.execute(q1)
+			conn.commit()
+
+		elif (oper == 'D'):		# decrementar 1
+			q1 = 'update stocks set cantidad = cantidad - 1 where id = ' + str(id_stock)
+			cursor.execute(q1)
+			conn.commit()
+
+		elif (oper == 'I'):		# incrementar 1
+			q1 = 'update stocks set cantidad = cantidad + 1 where id = ' + str(id_stock)
+			cursor.execute(q1)
+			conn.commit()
+
+	elif (request.method == 'POST'):
+		cantidad = request.form.get('cantidad')
+		fecha = request.form.get('fecha')
+		fecha = chk_fecha(fecha)
+		if (type(fecha) == int):
+			flash('Valor invalido en fecha')
+
+		else:
+			q1 = 'insert into stocks values (NULL, ' + \
+				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+			cursor.execute(q1)
+			conn.commit()
+
+		q1 = 'select *, ' + \
+			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+			' where id_producto = ' + str(id_producto)
+		cursor.execute(q1)
+		stocks = cursor.fetchall()
+	
+	q1 = 'select * from clases'
+	cursor.execute(q1)
+	clases = cursor.fetchall()
+	
+	q1 = 'select * from subclases where id_clase = ' + str(id_clase)
+	cursor.execute(q1)
+	subclases = cursor.fetchall()
+
+	q1 = 'select * from productos where id_clase = ' + str(id_clase) + ' and id_subclase = ' + str(id_subclase)
+	cursor.execute(q1)
+	productos = cursor.fetchall()
+
+	q1 = 'select *, ' + \
+		' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+		' where id_producto = ' + str(id_producto)
+	cursor.execute(q1)
+	stocks = cursor.fetchall()
+
+	ctx = { 'clases':clases, 'id_clase':id_clase, 
+			'subclases':subclases, 'id_subclase':id_subclase, 
+			'productos':productos, 'id_producto':id_producto, 
+			'stocks':stocks }
+	return(render_template('login.html', **ctx))
+
 
 
 @app.route('/k')
