@@ -8,8 +8,8 @@
 <body>
 	<form method="POST" action="">
 
-	<table border="1px" style="width: 60%;">
-		<tr> <th colspan="3"><h2>Vero Stock</h2></th> </tr>
+	<table border="1px" style="width: 70%;">
+		<tr> <th colspan="3" style="font-family: cursive;"><h2>Vero Stock</h2></th> </tr>
 		<tr>
 			<th style="width: 5%;">Letras</th>
 			<th style="width: 20%;">Productos</th>
@@ -27,7 +27,11 @@
 				{% if productos %}
 					{% for producto in productos %}
 						<a href="/letras/{{ producto[1][0] }}/{{ producto[0] }}">{{ producto[1] }}</a>
-						<br><br>
+						<br>
+						{% set lineas = ((loop.length / 10) + 1) | int %}
+						{% if loop.index % lineas == 0 %}
+							<br>
+						{% endif %}
 					{% endfor %}
 				{% endif %}
 			</td>

@@ -13,7 +13,7 @@ cursor = conn.cursor()
 
 def chk_fecha(fecha):
 	fecha = fecha.replace('/', '-')
-	if (fecha.find('-') > 0):
+	if (fecha.find('-') > 0 or fecha.find('-')):
 		m, a = fecha.split('-')
 		try:
 			mes = int(m)
@@ -93,38 +93,6 @@ def letras(letra = None, id_producto = None):
 	ctx = { 'letras':letras, 'letra':letra, 'productos':productos, 'id_producto':id_producto, 'stocks':stocks }
 	return(render_template('letras.html', **ctx))
 
-@app.route('/prodstock/<letra>/<id_producto>', methods=['GET', 'POST'])
-def prodstock(letra, id_producto):
-	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
-	cursor.execute(q1)
-	letras = cursor.fetchall()
-
-	q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
-	cursor.execute(q1)
-	productos = cursor.fetchall()
-
-	if (request.method == 'POST'):
-		cantidad = request.form.get('cantidad')
-		fecha = request.form.get('fecha')
-		fecha = chk_fecha(fecha)
-		if (type(fecha) == int):
-			flash('Valor invalido en fecha')
-
-		else:
-			q1 = 'insert into stocks values (NULL, ' + \
-				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
-			cursor.execute(q1)
-			conn.commit()
-
-	q1 = 'select *, ' + \
-		' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-		' where id_producto = ' + str(id_producto)
-	cursor.execute(q1)
-	stocks = cursor.fetchall()
-
-	ctx = { 'letras':letras, 'letra':letra, 'productos':productos, 'id_producto':id_producto, 'stocks':stocks }
-	return(render_template('letras.html', **ctx))
-
 @app.route('/abmlet/<oper>/<letra>/<id_producto>/<id_stock>', methods=['GET', 'POST'])
 def abmlet(oper, letra, id_producto, id_stock):
 	q1 = 'select * from stocks where id = ' + str(id_stock)
@@ -151,15 +119,19 @@ def abmlet(oper, letra, id_producto, id_stock):
 	elif (request.method == 'POST'):
 		cantidad = request.form.get('cantidad')
 		fecha = request.form.get('fecha')
-		fecha = chk_fecha(fecha)
-		if (type(fecha) == int):
-			flash('Valor invalido en fecha')
+		if (cantidad == '' or fecha == ''):
+			flash('Falta ingresar Cantidad y/o fecha')
 
 		else:
-			q1 = 'insert into stocks values (NULL, ' + \
-				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
-			cursor.execute(q1)
-			conn.commit()
+			fecha = chk_fecha(fecha)
+			if (type(fecha) == int):
+				flash('Valor invalido en fecha')
+
+			else:
+				q1 = 'insert into stocks values (NULL, ' + \
+					cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+				cursor.execute(q1)
+				conn.commit()
 
 	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
 	cursor.execute(q1)
@@ -272,7 +244,38 @@ def abmlet(oper, letra, id_producto, id_stock):
 # 				'productos':productos, 'id_producto':id_producto, 
 # 				'stocks':stocks }
 # 		return(render_template('login.html', **ctx))
-
+#
+# @app.route('/prodstock/<letra>/<id_producto>', methods=['GET', 'POST'])
+# def prodstock(letra, id_producto):
+# 	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
+# 	cursor.execute(q1)
+# 	letras = cursor.fetchall()
+#
+# 	q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
+# 	cursor.execute(q1)
+# 	productos = cursor.fetchall()
+#
+# 	if (request.method == 'POST'):
+# 		cantidad = request.form.get('cantidad')
+# 		fecha = request.form.get('fecha')
+# 		fecha = chk_fecha(fecha)
+# 		if (type(fecha) == int):
+# 			flash('Valor invalido en fecha')
+#
+# 		else:
+# 			q1 = 'insert into stocks values (NULL, ' + \
+# 				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+# 			cursor.execute(q1)
+# 			conn.commit()
+#
+# 	q1 = 'select *, ' + \
+# 		' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+# 		' where id_producto = ' + str(id_producto)
+# 	cursor.execute(q1)
+# 	stocks = cursor.fetchall()
+#
+# 	ctx = { 'letras':letras, 'letra':letra, 'productos':productos, 'id_producto':id_producto, 'stocks':stocks }
+# 	return(render_template('letras.html', **ctx))
 
 @app.route('/abm/<oper>/<id_clase>/<id_subclase>/<id_producto>/<id_stock>', methods=['GET', 'POST'])
 def abm(oper, id_clase, id_subclase, id_producto, id_stock):
