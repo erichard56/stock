@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Letras</title>
+	<title>Stock</title>
 </head>
 <body>
 	<form method="POST" action="">
@@ -44,7 +44,7 @@
 		<tr style="vertical-align: top; text-align: center;">
 			<td>
 				{% for letra in letras %}
-					<a href="/letras/{{ letra[0] }}" style="font-size: x-large;">&nbsp&nbsp{{ letra[0] }}&nbsp&nbsp</a>
+					<a href="/stock/@/{{ letra[0] }}" style="font-size: x-large;">&nbsp&nbsp{{ letra[0] }}&nbsp&nbsp</a>
 					<br>
 				{% endfor %}
 			</td>
@@ -52,7 +52,7 @@
 			<td>
 				{% if productos %}
 					{% for producto in productos %}
-						<a href="/letras/{{ producto[1][0] }}/{{ producto[0] }}">{{ producto[1] }}</a>
+						<a href="/stock/@@/{{ producto[1][0] }}/{{ producto[0] }}">{{ producto[1] }}</a>
 						<br>
 						{% set lineas = ((loop.length / 10) + 1) | int %}
 						{% if loop.index % lineas == 0 %}
@@ -86,13 +86,13 @@
 									{% else %} "green" {% endif %}> {{ stock[4] | trim }}
 								</td>
 								<td>
-									<a href="/abmlet/B/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">Borrar</a>
+									<a href="/stock/B/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">Borrar</a>
 								</td>
 								<td>
-									<a href="/abmlet/D/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">&nbsp-1&nbsp</a>
+									<a href="/stock/D/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">&nbsp-1&nbsp</a>
 								</td>
 								<td>
-									<a href="/abmlet/I/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">&nbsp+1&nbsp</a>
+									<a href="/stock/I/{{ letra }}/{{ id_producto }}/{{ stock[0] }}">&nbsp+1&nbsp</a>
 								</td>
 							</tr>
 						{% endfor %}
