@@ -1,19 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="stock.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1830"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="stocks" custom_title="0" dock_id="3" table="4,6:mainstocks"/><table title="stocks" custom_title="0" dock_id="4" table="4,6:mainstocks"/><dock_state state="000000ff00000000fd0000000100000002000004c2000002acfc0100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fc00000000000004c20000010100fffffffa000000010100000002fb000000160064006f0063006b00420072006f00770073006500330100000000ffffffff0000010100fffffffb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000010100ffffff000002940000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="clase_subclase" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="95"/><column index="2" value="157"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="clases" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="21"/><column index="2" value="242"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="36"/><column index="2" value="202"/><column index="3" value="63"/><column index="4" value="87"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="stocks" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="62"/><column index="2" value="65"/><column index="3" value="53"/><column index="4" value="89"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="subclases" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="24"/><column index="2" value="199"/><column index="3" value="63"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">create view clase_subclase as
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="stock.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1830"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="productos" custom_title="0" dock_id="4" table="4,9:mainproductos"/><table title="productos" custom_title="0" dock_id="3" table="4,9:mainproductos"/><dock_state state="000000ff00000000fd0000000100000002000004c2000002a9fc0100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fc00000000000004c20000020100fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500330100000000ffffffff0000014100fffffffb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000020100ffffff000002c00000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="clase_subclase" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="95"/><column index="2" value="157"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="clases" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="23"/><column index="2" value="242"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="68"/><column index="2" value="315"/><column index="3" value="63"/><column index="4" value="87"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="stocks" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="62"/><column index="2" value="76"/><column index="3" value="52"/><column index="4" value="106"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="subclases" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="24"/><column index="2" value="199"/><column index="3" value="63"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">create view clase_subclase as
 select * from clases a
-inner join subclases b on a.id = b.id_clase;</sql><sql name="Edit View clase_subclase">insert into productos values(3, '3 mentas de 10 ml', 2, NULL)</sql><sql name="SQL 3">select * from productos a
+inner join subclases b on a.id = b.id_clase;</sql><sql name="SQL 3">select * from productos a
 inner join clases b on b.id = a.id_clase
-left join subclases c on c.id = a.id_subclase</sql><sql name="SQL 4">insert into stocks values (1, 2, 01-6-2025, 1)</sql><sql name="SQL 5*">-- drop view vw_productos;
--- create view vw_productos as
--- select c.clase, d.subclase, a.producto, b.cantidad, b.fecha
--- 	, (substr(fecha, instr(fecha, '-') + 1, 4) * 12 + substr(fecha, 1, instr(fecha, '-') - 1))  - (strftime('%Y', datetime()) * 12 + strftime('%m', datetime()))
---  from productos a
--- inner join stocks b on b.id_producto = a.id
--- inner join clases c on c.id = a.id_clase
--- left join subclases d on d.id = a.id_subclase;
+left join subclases c on c.id = a.id_subclase</sql><sql name="SQL 5*">
 
--- select * from vw_productos
+-- select * from clase_subclase
 
-select * from productos order by id desc</sql><sql name="SQL 9*">-- tabla subclases
+-- select * from productos order by id desc</sql><sql name="SQL 9*">-- tabla subclases
 -- insert into subclases values (4, 'CUIDADOS FRECUENTES', 3);
 -- insert into subclases values (5, 'CUIDADOS VIVIFICANTES', 3);
 -- insert into subclases values (6, 'CUIDADOS FEMENINOS', 3);
@@ -181,4 +174,87 @@ select * from productos order by id desc</sql><sql name="SQL 9*">-- tabla subcla
 -- insert into productos values (147, 'Gel de ducha Guduchi y Citronela', 4, NULL);
 -- insert into productos values (148, 'Gel de Lavanda de 150 ml', 4, NULL);
 -- insert into productos values (149, 'Oral Care', 4, NULL);
--- insert into productos values (150, 'Shampoo de bebé', 4, NULL);</sql><current_tab id="4"/></tab_sql></sqlb_project>
+-- insert into productos values (150, 'Shampoo de bebé', 4, NULL);
+
+-- insert into stocks values(1,	2,	'6-2025', 1);
+-- insert into stocks values(2,	6,	'6-2025', 6);
+-- insert into stocks values(3, 1,	'7-2024', 7);	
+-- insert into stocks values(4, 1,	'12-2024', 7);	
+-- insert into stocks values(5, 1,	'6-2026', 7);
+-- insert into stocks values(6, 1,	'6-2026', 7);
+-- insert into stocks values(8,	7, '6-2025',8);
+-- insert into stocks values(9,	1, '7-2026', 9);		
+-- insert into stocks values(10, 6, '7-2024', 10);
+-- insert into stocks values(11, 2, '7-2026', 10);
+-- insert into stocks values(12, 1, '7-2026', 11);
+-- insert into stocks values(13, 1, '8-2026', 11);
+-- insert into stocks values(14, 1,	'9-2026', 11);
+-- insert into stocks values(15, 1,	'6-2025', 12);
+-- insert into stocks values(16, 6,	'6-2025', 13);				
+-- insert into stocks values(17, 4,	'4-2025', 14);		
+-- insert into stocks values(18, 4,	'8-2024', 15);
+-- insert into stocks values(19, 7, '2-2025', 17);
+-- insert into stocks values(20, 11, '2-2025', 18);
+-- insert into stocks values(21, 2, '7-2026', 18);
+-- insert into stocks values(22, 3, '8-2026', 18);
+-- insert into stocks values(23, 6, '7-2024' , 19);
+-- insert into stocks values(24, 8, '4-2025' , 20);
+-- insert into stocks values(25, 4, '7-2024', 21);
+-- insert into stocks values(26, 1, '4-2026', 21);
+-- insert into stocks values(27, 2, '9-2026', 21);
+-- insert into stocks values(28, 1, '6-2025', 23);
+-- insert into stocks values(29, 1, '2-2025', 24);
+-- insert into stocks values(30, 1, '6-2025', 24);
+-- insert into stocks values(31, 10, '5-2025', 25);		
+-- insert into stocks values (32, 1, '8-2026', 31);
+-- insert into stocks values (33, 1, '10-2026', 31);
+-- insert into stocks values (34, 7, '6-2026', 32);
+-- insert into stocks values (35, 2, '8-2026', 32);
+-- insert into stocks values (36, 3, '10-2026', 34);
+-- insert into stocks values (37, 2, '2-2025', 36);
+-- insert into stocks values (38, 1, '4-2023', 37);
+-- insert into stocks values (39, 2, '6-2025', 37);
+-- insert into stocks values (40, 1, '8-2026', 37);
+-- insert into stocks values (41, 1, '7-2025', 38);
+-- insert into stocks values (42, 4, '6-2026', 41);
+-- insert into stocks values (43, 5, '9-2024', 42);
+-- insert into stocks values (44, 1, '5-2023', 45);	
+-- insert into stocks values (45, 6, '3-2026', 45);	
+-- insert into stocks values (46, 1, '5-2026', 45);
+-- insert into stocks values (47, 1, '10-2026', 46);
+-- insert into stocks values (48, 3, '5-2025', 47);
+-- insert into stocks values (49, 1, '3-2024', 48);
+-- insert into stocks values (50, 3, '2-2026', 48);
+-- insert into stocks values (51, 2, '7-2026', 48);
+-- insert into stocks values (52, 3, '9-2026', 49);
+-- insert into stocks values (53, 5, '4-2025', 50);
+-- insert into stocks values (54, 14, '6-2026', 51);
+-- insert into stocks values (55, 7, '9-2026', 54);
+-- insert into stocks values (56, 4, '3-2024', 55);
+-- insert into stocks values (57, 5, '9-2026', 55);
+-- insert into stocks values (58, 13, '7-2027', 57);
+-- insert into stocks values (59, 5, '11-2026', 58);
+-- insert into stocks values (60, 5, '5-2027', 60);
+-- insert into stocks values (61, 13, '3-2025', 61);
+-- insert into stocks values (62, 7, '8-2025', 62);
+-- insert into stocks values (63, 1, '2-2026', 62);
+-- insert into stocks values (64, 10, '10-2026', 62);
+-- insert into stocks values (65, 6, '11-2023', 63);
+-- insert into stocks values (66, 7, '9-2025', 63);
+
+
+
+</sql><sql name="Edit View vw_productos*"> select * from vw_productos</sql><sql name="Edit View vw_productos*">DROP VIEW IF EXISTS &quot;main&quot;.&quot;vw_productos&quot;;
+CREATE VIEW vw_productos as
+select c.clase, d.subclase, a.producto, b.cantidad, b.fecha
+	, (substr(fecha, instr(fecha, '-') + 1, 4) * 12 + substr(fecha, 1, instr(fecha, '-') - 1))  - (strftime('%Y', datetime()) * 12 + strftime('%m', datetime()))
+ from productos a
+inner join stocks b on b.id_producto = a.id
+inner join clases c on c.id = a.id_clase
+left join subclases d on d.id = a.id_subclase</sql><sql name="SQL 13*">select producto, count(*) from productos group by producto having count(*) &gt; 1;
+
+select * from productos
+left join stocks on  stocks.id_producto = productos.id
+where productos.producto like &quot;%Jack%&quot;;
+
+delete from productos where id = 91;</sql><current_tab id="6"/></tab_sql></sqlb_project>

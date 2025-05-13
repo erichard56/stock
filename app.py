@@ -40,7 +40,7 @@ def chk_fecha(fecha):
 
 ##############
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/letras', methods=['GET', 'POST'])
 @app.route('/letras/<letra>', methods=['GET', 'POST'])
 @app.route('/letras/<letra>/<id_producto>', methods=['GET', 'POST'])
@@ -56,6 +56,8 @@ def letras(letra = None, id_producto = None):
 		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
 		cursor.execute(q1)
 		productos = cursor.fetchall()
+		if (len(productos) == 1):
+			id_producto = productos[0][0]
 	else:
 		productos = None
 	
@@ -69,24 +71,46 @@ def letras(letra = None, id_producto = None):
 		stocks = None		
 
 	if (request.method == 'POST'):
-		cantidad = request.form.get('cantidad')
-		fecha = request.form.get('fecha')
-		fecha = chk_fecha(fecha)
-		if (type(fecha) == int):
-			flash('Valor invalido en fecha')
-
-		else:
-			q1 = 'insert into stocks values (NULL, ' + \
-				cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+		busq = request.form.get("busq")
+		if (len(busq) > 0):
+			q1 = 'select * from productos where producto like "%' + str(busq).strip() + \
+					'%" order by producto'
 			cursor.execute(q1)
-			conn.commit()
+			productos = cursor.fetchall()
+			if (len(productos) == 0):
+				flash('No hay productos con esa descripcion')
 
-		# obtengo todos los registros de stock
-		q1 = 'select *, ' + \
-			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-			' where id_producto = ' + str(id_producto)
-		cursor.execute(q1)
-		stocks = cursor.fetchall()
+			else:
+				if (len(productos) == 1):
+					id_producto = productos[0][0]
+					# obtengo todos los registros de stock
+					q1 = 'select *, ' + \
+						' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+						' where id_producto = ' + str(id_producto)
+					cursor.execute(q1)
+					stocks = cursor.fetchall()
+				else:
+					id_producto = None
+		
+		else:
+			cantidad = request.form.get('cantidad')
+			fecha = request.form.get('fecha')
+			fecha = chk_fecha(fecha)
+			if (type(fecha) == int):
+				flash('Valor invalido en fecha')
+
+			else:
+				q1 = 'insert into stocks values (NULL, ' + \
+					cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+				cursor.execute(q1)
+				conn.commit()
+
+			# obtengo todos los registros de stock
+			q1 = 'select *, ' + \
+				' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+				' where id_producto = ' + str(id_producto)
+			cursor.execute(q1)
+			stocks = cursor.fetchall()
 
 
 
@@ -95,6 +119,14 @@ def letras(letra = None, id_producto = None):
 
 @app.route('/abmlet/<oper>/<letra>/<id_producto>/<id_stock>', methods=['GET', 'POST'])
 def abmlet(oper, letra, id_producto, id_stock):
+	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
+	cursor.execute(q1)
+	letras = cursor.fetchall()
+
+	q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
+	cursor.execute(q1)
+	productos = cursor.fetchall()
+
 	q1 = 'select * from stocks where id = ' + str(id_stock)
 	cursor.execute(q1)
 	stock = cursor.fetchone()
@@ -117,29 +149,43 @@ def abmlet(oper, letra, id_producto, id_stock):
 			conn.commit()
 
 	elif (request.method == 'POST'):
-		cantidad = request.form.get('cantidad')
-		fecha = request.form.get('fecha')
-		if (cantidad == '' or fecha == ''):
-			flash('Falta ingresar Cantidad y/o fecha')
-
-		else:
-			fecha = chk_fecha(fecha)
-			if (type(fecha) == int):
-				flash('Valor invalido en fecha')
+		busq = request.form.get("busq")
+		if (len(busq) > 0):
+			q1 = 'select * from productos where producto like "%' + str(busq).strip() + \
+					'%" order by producto'
+			cursor.execute(q1)
+			productos = cursor.fetchall()
+			if (len(productos) == 0):
+				flash('No hay productos con esa descripcion')
 
 			else:
-				q1 = 'insert into stocks values (NULL, ' + \
-					cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
-				cursor.execute(q1)
-				conn.commit()
+				if (len(productos) == 1):
+					id_producto = productos[0][0]
+					# obtengo todos los registros de stock
+					q1 = 'select *, ' + \
+						' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
+						' where id_producto = ' + str(id_producto)
+					cursor.execute(q1)
+					stocks = cursor.fetchall()
+				else:
+					id_producto = None
+		else:
+			cantidad = request.form.get('cantidad')
+			fecha = request.form.get('fecha')
+			if (cantidad == '' or fecha == ''):
+				flash('Falta ingresar Cantidad y/o fecha')
 
-	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
-	cursor.execute(q1)
-	letras = cursor.fetchall()
+			else:
+				fecha = chk_fecha(fecha)
+				if (type(fecha) == int):
+					flash('Valor invalido en fecha')
 
-	q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + '" order by producto'
-	cursor.execute(q1)
-	productos = cursor.fetchall()
+				else:
+					q1 = 'insert into stocks values (NULL, ' + \
+						cantidad + ', "' + fecha + '", ' + str(id_producto) + ')'
+					cursor.execute(q1)
+					conn.commit()
+
 
 	q1 = 'select *, ' + \
 		' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
