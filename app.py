@@ -91,7 +91,9 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 		conn.commit()
 
 	if (oper is not None and oper in "BDI"):
-		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + \
+		# q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + \
+		# 		'" order by producto'
+		q1 = 'select * from productos where id = "' + str(id_producto) + \
 				'" order by producto'
 		cursor.execute(q1)
 		productos = cursor.fetchall()
@@ -116,6 +118,8 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 			cursor.execute(q1)
 			productos = cursor.fetchall()
 			if (len(productos) == 0):
+				id_producto = None
+				stocks = None
 				flash('No hay productos con esa descripcion')
 
 			else:
