@@ -54,24 +54,22 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 
 	productos = None
 	if (oper == "@"):	#indica que debo buscar ltodos los productos que comiencen por esa letra
-		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + \
-				'" order by producto'
+		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra)+ '" order by producto'
 		cursor.execute(q1)
 		productos = cursor.fetchall()
 		if (len(productos) == 1):
 			id_producto = productos[0][0]
 	
 	elif (oper == "@@"):
-		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + \
-				'" order by producto'
+		q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + letra + '" order by producto'
 		cursor.execute(q1)
 		productos = cursor.fetchall()
 		if (len(productos) == 1):
 			id_producto = productos[0][0]
 
 		q1 = 'select *, ' + \
-			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-			' where id_producto = ' + str(id_producto)
+			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime())) ' + \
+			' from stocks where id_producto = ' + str(id_producto)
 		cursor.execute(q1)
 		stocks = cursor.fetchall()
 
@@ -91,15 +89,11 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 		conn.commit()
 
 	if (oper is not None and oper in "BDI"):
-		# q1 = 'select * from productos where SUBSTR(producto, 1, 1) = "' + str(letra) + \
-		# 		'" order by producto'
-		q1 = 'select * from productos where id = "' + str(id_producto) + \
-				'" order by producto'
+		q1 = 'select * from productos where substr(producto, 1, 1) = "' + str(letra) + '" order by producto'
 		cursor.execute(q1)
 		productos = cursor.fetchall()
 		if (len(productos) == 1):
 			id_producto = productos[0][0]
-
 
 	if (id_producto is not None):
 		q1 = 'select *, ' + \
@@ -147,14 +141,15 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 				cursor.execute(q1)
 				conn.commit()
 
+			q1 = 'select * from productos where substr(producto, 1, 1) = "' + str(letra) + '" order by producto'
+			cursor.execute(q1)
+			productos = cursor.fetchall()
 			# obtengo todos los registros de stock
 			q1 = 'select *, ' + \
 				' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
 				' where id_producto = ' + str(id_producto)
 			cursor.execute(q1)
 			stocks = cursor.fetchall()
-
-
 
 	ctx = { 'letras':letras, 'letra':letra, 'productos':productos, 'id_producto':id_producto, 'stocks':stocks }
 	return(render_template('stock.html', **ctx))
