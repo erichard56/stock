@@ -8,14 +8,9 @@
 <body>
 	<h1>productos</h1>
 	<br><br>
-	datos0 {{ datos[0][0] }} <br><br>
-	datos1 {{ datos[0][1] }}
 	<table>
 		{% for dato in datos %}
-			<h3>counter dato {{ loop.index }}</h3>
-			<h3>usando index {{ datos[0][loop.index] }}</h3>
 			{% for clase in dato %}
-				<h3>clase dato {{ loop.index }} / {{ loop.last }}</h3>
 				<tr>
 					<td>{{ clase[0] }}</td>
 				</tr>

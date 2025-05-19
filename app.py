@@ -1,6 +1,7 @@
 import sqlite3
 from typing import Optional
 from flask import Flask, render_template, request, redirect, flash
+import datetime
 
 DATABASE = 'stock.db'
 app = Flask(__name__)
@@ -46,6 +47,8 @@ def chk_fecha(fecha):
 @app.route('/stock/<oper>/<letra>/<id_producto>', methods=['GET', 'POST'])
 @app.route('/stock/<oper>/<letra>/<id_producto>/<id_stock>', methods=['GET', 'POST'])
 def stock(oper = None, letra = None, id_producto = None, id_stock = None):
+
+	lapso = datetime.datetime.now().year * 12 + datetime.datetime.now().month
 
 	# obtengo todas las primeras letras de todos los producto	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
 	q1 = 'SELECT DISTINCT(SUBSTR(producto, 1, 1)) FROM productos ORDER BY producto'
@@ -97,8 +100,8 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 
 	if (id_producto is not None):
 		q1 = 'select *, ' + \
-			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-			' where id_producto = ' + str(id_producto)
+			' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1)) - ' + \
+			str(lapso) + ' from stocks where id_producto = ' + str(id_producto)
 		cursor.execute(q1)
 		stocks = cursor.fetchall()
 	else:
@@ -107,8 +110,7 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 	if (request.method == 'POST'):
 		busq = request.form.get("busq")
 		if (len(busq) > 0):
-			q1 = 'select * from productos where producto like "%' + str(busq).strip() + \
-					'%" order by producto'
+			q1 = 'select * from productos where producto like "%' + str(busq).strip() + '%" order by producto'
 			cursor.execute(q1)
 			productos = cursor.fetchall()
 			if (len(productos) == 0):
@@ -119,10 +121,9 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 			else:
 				if (len(productos) == 1):
 					id_producto = productos[0][0]
-					# obtengo todos los registros de stock
 					q1 = 'select *, ' + \
-						' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-						' where id_producto = ' + str(id_producto)
+						' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - ' + \
+						str(lapso) + ' from stocks where id_producto = ' + str(id_producto)
 					cursor.execute(q1)
 					stocks = cursor.fetchall()
 				else:
@@ -146,8 +147,8 @@ def stock(oper = None, letra = None, id_producto = None, id_stock = None):
 			productos = cursor.fetchall()
 			# obtengo todos los registros de stock
 			q1 = 'select *, ' + \
-				' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - (strftime("%Y", datetime()) * 12 + strftime("%m", datetime()))from stocks ' + \
-				' where id_producto = ' + str(id_producto)
+				' (substr(fecha, instr(fecha, "-") + 1, 4) * 12 + substr(fecha, 1, instr(fecha, "-") - 1))  - ' + \
+				str(lapso) + ' from stocks where id_producto = ' + str(id_producto)
 			cursor.execute(q1)
 			stocks = cursor.fetchall()
 

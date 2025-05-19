@@ -25,9 +25,9 @@
 					{% if messages %}
 						<tr>
 							<th colspan="3">
-													{% for category, message in messages %}
-								<h3 style="color: crimson; text-align: center;">{{ message }}</h3>
-							{% endfor %}
+								{% for category, message in messages %}
+									<h3 style="color: crimson; text-align: center;">{{ message }}</h3>
+								{% endfor %}
 							</th>
 						</tr>
 					{% endif %}
